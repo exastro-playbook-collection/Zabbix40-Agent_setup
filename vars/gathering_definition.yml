@@ -1,0 +1,14 @@
+---
+command:
+  - cat /etc/zabbix/zabbix_agentd.conf
+  - cat /etc/logrotate.d/zabbix-agent
+  - ls -l /var/log/zabbix/*agent*
+  - ls -l /tmp
+# for RHEL6
+  - service zabbix-agent status
+  - chkconfig --list | grep zabbix
+# for RHEL7
+  - systemctl status zabbix-agent
+  - systemctl list-unit-files | grep zabbix
+file:
+  - /var/log/zabbix/zabbix_agentd.log

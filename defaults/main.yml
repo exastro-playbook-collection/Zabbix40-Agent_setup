@@ -1,0 +1,56 @@
+###  vars file for ansible-zabbix-agent
+
+##  setting environment variables for zabbix-agentd.conf
+
+   VAR_Zabbix40AG_LogType :
+   VAR_Zabbix40AG_LogFile : /var/log/zabbix/zabbix_agentd.log
+   VAR_Zabbix40AG_LogFileSize : 0
+   VAR_Zabbix40AG_DebugLevel :
+   VAR_Zabbix40AG_SourceIP :
+   VAR_Zabbix40AG_EnableRemoteCommands :
+   VAR_Zabbix40AG_LogRemoteCommands :
+   VAR_Zabbix40AG_Server :
+   VAR_Zabbix40AG_ListenPort :
+   VAR_Zabbix40AG_ListenIP :
+   VAR_Zabbix40AG_StartAgents :
+   VAR_Zabbix40AG_ServerActive :
+   VAR_Zabbix40AG_Hostname : "{{ ansible_hostname }}"
+   VAR_Zabbix40AG_HostnameItem :
+   VAR_Zabbix40AG_HostMetadata :
+   VAR_Zabbix40AG_HostMetadataItem :
+   VAR_Zabbix40AG_RefreshActiveChecks :
+   VAR_Zabbix40AG_BufferSend :
+   VAR_Zabbix40AG_BufferSize :
+   VAR_Zabbix40AG_MaxLinesPerSecond :
+   VAR_Zabbix40AG_Alias : []
+   VAR_Zabbix40AG_Timeout :
+   VAR_Zabbix40AG_AllowRoot :
+   VAR_Zabbix40AG_User :
+   VAR_Zabbix40AG_Include :
+      - /etc/zabbix/zabbix_agentd.d/
+   VAR_Zabbix40AG_UnsafeUserParameters :
+   VAR_Zabbix40AG_UserParameter : []
+   VAR_Zabbix40AG_LoadModulePath :
+   VAR_Zabbix40AG_LoadModule : []
+   VAR_Zabbix40AG_TLSConnect :
+   VAR_Zabbix40AG_TLSAccept :
+   VAR_Zabbix40AG_TLSCAFile :
+   VAR_Zabbix40AG_TLSCRLFile :
+   VAR_Zabbix40AG_TLSServerCI :
+   VAR_Zabbix40AG_TLSServerCS :
+   VAR_Zabbix40AG_TLSCertFile :
+   VAR_Zabbix40AG_TLSKeyFile :
+   VAR_Zabbix40AG_TLSPSKId :
+   VAR_Zabbix40AG_TLSPSKFile :
+
+
+##  setting environment variables for logrotate (zabbix-agent)
+   VAR_Zabbix40AG_RotateTiming : weekly
+   VAR_Zabbix40AG_RotateCount : 12
+
+## setting Zabbix-agent Enable & Starting
+   VAR_Zabbix40AG_chkconfig : ""             # "on" or "off"
+   VAR_Zabbix40AG_start : ""                 # "yes" or "no"
+
+## flag for permission change
+   zabbix40AG_chmod : False              # False or True

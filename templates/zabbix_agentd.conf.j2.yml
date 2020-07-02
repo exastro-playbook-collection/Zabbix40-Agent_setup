@@ -1,0 +1,541 @@
+# This is a configuration file for Zabbix agent daemon (Unix)
+# To get more information about Zabbix, visit http://www.zabbix.com
+
+############ GENERAL PARAMETERS #################
+
+### Option: PidFile
+#	Name of PID file.
+#
+# Mandatory: no
+# Default:
+# PidFile=/tmp/zabbix_agentd.pid
+
+PidFile=/var/run/zabbix/zabbix_agentd.pid
+
+### Option: LogType
+#	Specifies where log messages are written to:
+#		system  - syslog
+#		file    - file specified with LogFile parameter
+#		console - standard output
+#
+# Mandatory: no
+# Default:
+# LogType=file
+
+{% if VAR_Zabbix40AG_LogType is defined and VAR_Zabbix40AG_LogType != None %}
+LogType={{ VAR_Zabbix40AG_LogType }}
+{% endif %}
+
+### Option: LogFile
+#	Log file name for LogType 'file' parameter.
+#
+# Mandatory: yes, if LogType is set to file, otherwise no
+# Default:
+# LogFile=
+
+LogFile={{ VAR_Zabbix40AG_LogFile }}
+
+### Option: LogFileSize
+#	Maximum size of log file in MB.
+#	0 - disable automatic log rotation.
+#
+# Mandatory: no
+# Range: 0-1024
+# Default:
+# LogFileSize=1
+
+LogFileSize={{ VAR_Zabbix40AG_LogFileSize }}
+
+### Option: DebugLevel
+#	Specifies debug level:
+#	0 - basic information about starting and stopping of Zabbix processes
+#	1 - critical information
+#	2 - error information
+#	3 - warnings
+#	4 - for debugging (produces lots of information)
+#	5 - extended debugging (produces even more information)
+#
+# Mandatory: no
+# Range: 0-5
+# Default:
+# DebugLevel=3
+
+{% if VAR_Zabbix40AG_DebugLevel is defined and VAR_Zabbix40AG_DebugLevel != None %}
+DebugLevel={{ VAR_Zabbix40AG_DebugLevel }}
+{% endif %}
+
+### Option: SourceIP
+#	Source IP address for outgoing connections.
+#
+# Mandatory: no
+# Default:
+# SourceIP=
+
+{% if VAR_Zabbix40AG_SourceIP is defined and VAR_Zabbix40AG_SourceIP != None %}
+SourceIP={{ VAR_Zabbix40AG_SourceIP }}
+{% endif %}
+
+### Option: EnableRemoteCommands
+#	Whether remote commands from Zabbix server are allowed.
+#	0 - not allowed
+#	1 - allowed
+#
+# Mandatory: no
+# Default:
+# EnableRemoteCommands=0
+
+{% if VAR_Zabbix40AG_EnableRemoteCommands is defined and VAR_Zabbix40AG_EnableRemoteCommands != None %}
+EnableRemoteCommands={{ VAR_Zabbix40AG_EnableRemoteCommands }}
+{% endif %}
+
+### Option: LogRemoteCommands
+#	Enable logging of executed shell commands as warnings.
+#	0 - disabled
+#	1 - enabled
+#
+# Mandatory: no
+# Default:
+# LogRemoteCommands=0
+
+{% if VAR_Zabbix40AG_LogRemoteCommands is defined and VAR_Zabbix40AG_LogRemoteCommands != None %}
+LogRemoteCommands={{ VAR_Zabbix40AG_LogRemoteCommands }}
+{% endif %}
+
+##### Passive checks related
+
+### Option: Server
+#	List of comma delimited IP addresses, optionally in CIDR notation, or DNS names of Zabbix servers and Zabbix proxies.
+#	Incoming connections will be accepted only from the hosts listed here.
+#	If IPv6 support is enabled then '127.0.0.1', '::127.0.0.1', '::ffff:127.0.0.1' are treated equally
+#	and '::/0' will allow any IPv4 or IPv6 address.
+#	'0.0.0.0/0' can be used to allow any IPv4 address.
+#	Example: Server=127.0.0.1,192.168.1.0/24,::1,2001:db8::/32,zabbix.example.com
+#
+# Mandatory: yes, if StartAgents is not explicitly set to 0
+# Default:
+# Server=
+
+Server={{ VAR_Zabbix40AG_Server }}
+
+### Option: ListenPort
+#	Agent will listen on this port for connections from the server.
+#
+# Mandatory: no
+# Range: 1024-32767
+# Default:
+# ListenPort=10050
+
+{% if VAR_Zabbix40AG_ListenPort is defined and VAR_Zabbix40AG_ListenPort != None %}
+ListenPort={{ VAR_Zabbix40AG_ListenPort }}
+{% endif %}
+
+### Option: ListenIP
+#	List of comma delimited IP addresses that the agent should listen on.
+#	First IP address is sent to Zabbix server if connecting to it to retrieve list of active checks.
+#
+# Mandatory: no
+# Default:
+# ListenIP=0.0.0.0
+
+{% if VAR_Zabbix40AG_ListenIP is defined and VAR_Zabbix40AG_ListenIP != None %}
+ListenIP={{ VAR_Zabbix40AG_ListenIP }}
+{% endif %}
+
+### Option: StartAgents
+#	Number of pre-forked instances of zabbix_agentd that process passive checks.
+#	If set to 0, disables passive checks and the agent will not listen on any TCP port.
+#
+# Mandatory: no
+# Range: 0-100
+# Default:
+# StartAgents=3
+
+{% if VAR_Zabbix40AG_StartAgents is defined and VAR_Zabbix40AG_StartAgents != None %}
+StartAgents={{ VAR_Zabbix40AG_StartAgents }}
+{% endif %}
+
+##### Active checks related
+
+### Option: ServerActive
+#	List of comma delimited IP:port (or DNS name:port) pairs of Zabbix servers and Zabbix proxies for active checks.
+#	If port is not specified, default port is used.
+#	IPv6 addresses must be enclosed in square brackets if port for that host is specified.
+#	If port is not specified, square brackets for IPv6 addresses are optional.
+#	If this parameter is not specified, active checks are disabled.
+#	Example: ServerActive=127.0.0.1:20051,zabbix.domain,[::1]:30051,::1,[12fc::1]
+#
+# Mandatory: no
+# Default:
+# ServerActive=
+
+ServerActive={{ VAR_Zabbix40AG_ServerActive }}
+
+### Option: Hostname
+#	Unique, case sensitive hostname.
+#	Required for active checks and must match hostname as configured on the server.
+#	Value is acquired from HostnameItem if undefined.
+#
+# Mandatory: no
+# Default:
+# Hostname=
+
+Hostname={{ VAR_Zabbix40AG_Hostname }}
+
+### Option: HostnameItem
+#	Item used for generating Hostname if it is undefined. Ignored if Hostname is defined.
+#	Does not support UserParameters or aliases.
+#
+# Mandatory: no
+# Default:
+# HostnameItem=system.hostname
+
+{% if VAR_Zabbix40AG_HostnameItem is defined and VAR_Zabbix40AG_HostnameItem != None %}
+HostnameItem={{ VAR_Zabbix40AG_HostnameItem }}
+{% endif %}
+
+### Option: HostMetadata
+#	Optional parameter that defines host metadata.
+#	Host metadata is used at host auto-registration process.
+#	An agent will issue an error and not start if the value is over limit of 255 characters.
+#	If not defined, value will be acquired from HostMetadataItem.
+#
+# Mandatory: no
+# Range: 0-255 characters
+# Default:
+# HostMetadata=
+
+{% if VAR_Zabbix40AG_HostMetadata is defined and VAR_Zabbix40AG_HostMetadata != None %}
+HostMetadata={{ VAR_Zabbix40AG_HostMetadata }}
+{% endif %}
+
+### Option: HostMetadataItem
+#	Optional parameter that defines an item used for getting host metadata.
+#	Host metadata is used at host auto-registration process.
+#	During an auto-registration request an agent will log a warning message if
+#	the value returned by specified item is over limit of 255 characters.
+#	This option is only used when HostMetadata is not defined.
+#
+# Mandatory: no
+# Default:
+# HostMetadataItem=
+
+{% if VAR_Zabbix40AG_HostMetadataItem is defined and VAR_Zabbix40AG_HostMetadataItem != None %}
+HostMetadataItem={{ VAR_Zabbix40AG_HostMetadataItem }}
+{% endif %}
+
+### Option: RefreshActiveChecks
+#	How often list of active checks is refreshed, in seconds.
+#
+# Mandatory: no
+# Range: 60-3600
+# Default:
+# RefreshActiveChecks=120
+
+{% if VAR_Zabbix40AG_RefreshActiveChecks is defined and VAR_Zabbix40AG_RefreshActiveChecks != None %}
+RefreshActiveChecks={{ VAR_Zabbix40AG_RefreshActiveChecks }}
+{% endif %}
+
+### Option: BufferSend
+#	Do not keep data longer than N seconds in buffer.
+#
+# Mandatory: no
+# Range: 1-3600
+# Default:
+# BufferSend=5
+
+{% if VAR_Zabbix40AG_BufferSend is defined and VAR_Zabbix40AG_BufferSend != None %}
+BufferSend={{ VAR_Zabbix40AG_BufferSend }}
+{% endif %}
+
+### Option: BufferSize
+#	Maximum number of values in a memory buffer. The agent will send
+#	all collected data to Zabbix Server or Proxy if the buffer is full.
+#
+# Mandatory: no
+# Range: 2-65535
+# Default:
+# BufferSize=100
+
+{% if VAR_Zabbix40AG_BufferSize is defined and VAR_Zabbix40AG_BufferSize != None %}
+BufferSize={{ VAR_Zabbix40AG_BufferSize }}
+{% endif %}
+
+### Option: MaxLinesPerSecond
+#	Maximum number of new lines the agent will send per second to Zabbix Server
+#	or Proxy processing 'log' and 'logrt' active checks.
+#	The provided value will be overridden by the parameter 'maxlines',
+#	provided in 'log' or 'logrt' item keys.
+#
+# Mandatory: no
+# Range: 1-1000
+# Default:
+# MaxLinesPerSecond=20
+
+{% if VAR_Zabbix40AG_MaxLinesPerSecond is defined and VAR_Zabbix40AG_MaxLinesPerSecond != None %}
+MaxLinesPerSecond={{ VAR_Zabbix40AG_MaxLinesPerSecond }}
+{% endif %}
+
+############ ADVANCED PARAMETERS #################
+
+### Option: Alias
+#	Sets an alias for an item key. It can be used to substitute long and complex item key with a smaller and simpler one.
+#	Multiple Alias parameters may be present. Multiple parameters with the same Alias key are not allowed.
+#	Different Alias keys may reference the same item key.
+#	For example, to retrieve the ID of user 'zabbix':
+#	Alias=zabbix.userid:vfs.file.regexp[/etc/passwd,^zabbix:.:([0-9]+),,,,\1]
+#	Now shorthand key zabbix.userid may be used to retrieve data.
+#	Aliases can be used in HostMetadataItem but not in HostnameItem parameters.
+#
+# Mandatory: no
+# Range:
+# Default:
+
+{% if VAR_Zabbix40AG_Alias is defined and VAR_Zabbix40AG_Alias != None %}
+{% for zabbixag_local_alias in VAR_Zabbix40AG_Alias %}
+Alias={{ zabbixag_local_alias }}
+{% endfor %}
+{% endif %}
+
+### Option: Timeout
+#	Spend no more than Timeout seconds on processing
+#
+# Mandatory: no
+# Range: 1-30
+# Default:
+# Timeout=3
+
+{% if VAR_Zabbix40AG_Timeout is defined and VAR_Zabbix40AG_Timeout != None %}
+Timeout={{ VAR_Zabbix40AG_Timeout }}
+{% endif %}
+
+### Option: AllowRoot
+#	Allow the agent to run as 'root'. If disabled and the agent is started by 'root', the agent
+#	will try to switch to the user specified by the User configuration option instead.
+#	Has no effect if started under a regular user.
+#	0 - do not allow
+#	1 - allow
+#
+# Mandatory: no
+# Default:
+# AllowRoot=0
+
+{% if VAR_Zabbix40AG_AllowRoot is defined and VAR_Zabbix40AG_AllowRoot != None %}
+AllowRoot={{ VAR_Zabbix40AG_AllowRoot }}
+{% endif %}
+
+### Option: User
+#	Drop privileges to a specific, existing user on the system.
+#	Only has effect if run as 'root' and AllowRoot is disabled.
+#
+# Mandatory: no
+# Default:
+# User=zabbix
+
+{% if VAR_Zabbix40AG_User is defined and VAR_Zabbix40AG_User != None %}
+User={{ VAR_Zabbix40AG_User }}
+{% endif %}
+
+### Option: Include
+#	You may include individual files or all files in a directory in the configuration file.
+#	Installing Zabbix will create include directory in /usr/local/etc, unless modified during the compile time.
+#
+# Mandatory: no
+# Default:
+# Include=
+
+# Include=/etc/zabbix/zabbix_agentd.d/
+
+# Include=/usr/local/etc/zabbix_agentd.userparams.conf
+# Include=/usr/local/etc/zabbix_agentd.conf.d/
+# Include=/usr/local/etc/zabbix_agentd.conf.d/*.conf
+
+{% if VAR_Zabbix40AG_Include is defined and VAR_Zabbix40AG_Include != None %}
+{% for zabbixag_local_include in VAR_Zabbix40AG_Include %}
+Include={{ zabbixag_local_include }}
+{% endfor %}
+{% endif %}
+
+####### USER-DEFINED MONITORED PARAMETERS #######
+
+### Option: UnsafeUserParameters
+#	Allow all characters to be passed in arguments to user-defined parameters.
+#	The following characters are not allowed:
+#	\ ' " ` * ? [ ] { } ~ $ ! & ; ( ) < > | # @
+#	Additionally, newline characters are not allowed.
+#	0 - do not allow
+#	1 - allow
+#
+# Mandatory: no
+# Range: 0-1
+# Default:
+# UnsafeUserParameters=0
+
+{% if VAR_Zabbix40AG_UnsafeUserParameters is defined and VAR_Zabbix40AG_UnsafeUserParameters != None %}
+UnsafeUserParameters={{ VAR_Zabbix40AG_UnsafeUserParameters }}
+{% endif %}
+
+### Option: UserParameter
+#	User-defined parameter to monitor. There can be several user-defined parameters.
+#	Format: UserParameter=<key>,<shell command>
+#	See 'zabbix_agentd' directory for examples.
+#
+# Mandatory: no
+# Default:
+# UserParameter=
+
+{% if VAR_Zabbix40AG_UserParameter is defined and VAR_Zabbix40AG_UserParameter != None %}
+{% for zabbixag_local_userparameter in VAR_Zabbix40AG_UserParameter %}
+UserParameter={{ zabbixag_local_userparameter }}
+{% endfor %}
+{% endif %}
+
+####### LOADABLE MODULES #######
+
+### Option: LoadModulePath
+#	Full path to location of agent modules.
+#	Default depends on compilation options.
+#
+# Mandatory: no
+# Default:
+# LoadModulePath=${libdir}/modules
+
+{% if VAR_Zabbix40AG_LoadModulePath is defined and VAR_Zabbix40AG_LoadModulePath != None %}
+LoadModulePath={{ VAR_Zabbix40AG_LoadModulePath }}
+{% endif %}
+
+### Option: LoadModule
+#	Module to load at agent startup. Modules are used to extend functionality of the agent.
+#	Format: LoadModule=<module.so>
+#	The modules must be located in directory specified by LoadModulePath.
+#	It is allowed to include multiple LoadModule parameters.
+#
+# Mandatory: no
+# Default:
+# LoadModule=
+
+{% if VAR_Zabbix40AG_LoadModule is defined and VAR_Zabbix40AG_LoadModule != None %}
+{% for zabbixag_local_loadmodule in VAR_Zabbix40AG_LoadModule %}
+LoadModule={{ zabbixag_local_loadmodule }}
+{% endfor %}
+{% endif %}
+
+####### TLS-RELATED PARAMETERS #######
+
+### Option: TLSConnect
+#	How the agent should connect to server or proxy. Used for active checks.
+#	Only one value can be specified:
+#		unencrypted - connect without encryption
+#		psk         - connect using TLS and a pre-shared key
+#		cert        - connect using TLS and a certificate
+#
+# Mandatory: yes, if TLS certificate or PSK parameters are defined (even for 'unencrypted' connection)
+# Default:
+# TLSConnect=unencrypted
+
+{% if VAR_Zabbix40AG_TLSConnect is defined and VAR_Zabbix40AG_TLSConnect != None %}
+TLSConnect={{ VAR_Zabbix40AG_TLSConnect }}
+{% endif %}
+
+### Option: TLSAccept
+#	What incoming connections to accept.
+#	Multiple values can be specified, separated by comma:
+#		unencrypted - accept connections without encryption
+#		psk         - accept connections secured with TLS and a pre-shared key
+#		cert        - accept connections secured with TLS and a certificate
+#
+# Mandatory: yes, if TLS certificate or PSK parameters are defined (even for 'unencrypted' connection)
+# Default:
+# TLSAccept=unencrypted
+
+{% if VAR_Zabbix40AG_TLSAccept is defined and VAR_Zabbix40AG_TLSAccept != None %}
+TLSAccept={{ VAR_Zabbix40AG_TLSAccept }}
+{% endif %}
+
+### Option: TLSCAFile
+#	Full pathname of a file containing the top-level CA(s) certificates for
+#	peer certificate verification.
+#
+# Mandatory: no
+# Default:
+# TLSCAFile=
+
+{% if VAR_Zabbix40AG_TLSCAFile is defined and VAR_Zabbix40AG_TLSCAFile != None %}
+TLSCAFile={{ VAR_Zabbix40AG_TLSCAFile }}
+{% endif %}
+
+### Option: TLSCRLFile
+#	Full pathname of a file containing revoked certificates.
+#
+# Mandatory: no
+# Default:
+# TLSCRLFile=
+
+{% if VAR_Zabbix40AG_TLSCRLFile is defined and VAR_Zabbix40AG_TLSCRLFile != None %}
+TLSCRLFile={{ VAR_Zabbix40AG_TLSCRLFile }}
+{% endif %}
+
+### Option: TLSServerCertIssuer
+#      Allowed server certificate issuer.
+#
+# Mandatory: no
+# Default:
+# TLSServerCertIssuer=
+
+{% if VAR_Zabbix40AG_TLSServerCI is defined and VAR_Zabbix40AG_TLSServerCI != None %}
+TLSServerCertIssuer={{ VAR_Zabbix40AG_TLSServerCI }}
+{% endif %}
+
+### Option: TLSServerCertSubject
+#      Allowed server certificate subject.
+#
+# Mandatory: no
+# Default:
+# TLSServerCertSubject=
+
+{% if VAR_Zabbix40AG_TLSServerCS is defined and VAR_Zabbix40AG_TLSServerCS != None %}
+TLSServerCertSubject={{ VAR_Zabbix40AG_TLSServerCS }}
+{% endif %}
+
+### Option: TLSCertFile
+#	Full pathname of a file containing the agent certificate or certificate chain.
+#
+# Mandatory: no
+# Default:
+# TLSCertFile=
+
+{% if VAR_Zabbix40AG_TLSCertFile is defined and VAR_Zabbix40AG_TLSCertFile != None %}
+TLSCertFile={{ VAR_Zabbix40AG_TLSCertFile }}
+{% endif %}
+
+### Option: TLSKeyFile
+#	Full pathname of a file containing the agent private key.
+#
+# Mandatory: no
+# Default:
+# TLSKeyFile=
+
+{% if VAR_Zabbix40AG_TLSKeyFile is defined and VAR_Zabbix40AG_TLSKeyFile != None %}
+TLSKeyFile={{ VAR_Zabbix40AG_TLSKeyFile }}
+{% endif %}
+
+### Option: TLSPSKIdentity
+#	Unique, case sensitive string used to identify the pre-shared key.
+#
+# Mandatory: no
+# Default:
+# TLSPSKIdentity=
+
+{% if VAR_Zabbix40AG_TLSPSKId is defined and VAR_Zabbix40AG_TLSPSKId != None %}
+TLSPSKIdentity={{ VAR_Zabbix40AG_TLSPSKId }}
+{% endif %}
+
+### Option: TLSPSKFile
+#	Full pathname of a file containing the pre-shared key.
+#
+# Mandatory: no
+# Default:
+# TLSPSKFile=
+
+{% if VAR_Zabbix40AG_TLSPSKFile is defined and VAR_Zabbix40AG_TLSPSKFile != None %}
+TLSPSKFile={{ VAR_Zabbix40AG_TLSPSKFile }}
+{% endif %}

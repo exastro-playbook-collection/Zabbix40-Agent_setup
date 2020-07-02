@@ -1,0 +1,30 @@
+---
+
+# 管理対象マシンへzabbix_agentd.confのチューニング
+
+   - name: setting zabbix_agentd.conf
+     template: src=zabbix_agentd.conf.j2.yml   dest=/etc/zabbix/zabbix_agentd.conf
+
+   - name: change logrotate
+     template: src=zabbix_agent.j2.yml   dest=/etc/logrotate.d/zabbix-agent
+     when: VAR_Zabbix40AG_LogType is undefined or VAR_Zabbix40AG_LogType == "file" or VAR_Zabbix40AG_LogType == None
+
+   - name: /var/run/zabbix permission change
+     file: path=/var/run/zabbix state=directory mode=0777
+     when: zabbix40AG_chmod == True
+
+   - name: /var/log/zabbix permission change
+     file: path=/var/log/zabbix state=directory mode=0777
+     when: zabbix40AG_chmod == True
+
+   - name: Auto start set.
+     service: name=zabbix-agent  enabled=yes
+     when: VAR_Zabbix40AG_chkconfig == "on"
+
+   - name: Auto start reset.
+     service: name=zabbix-agent  enabled=no
+     when: VAR_Zabbix40AG_chkconfig == "off"
+
+   - name: restart  zabbix-agent
+     service: name=zabbix-agent state=restarted
+     when: VAR_Zabbix40AG_start == "yes"
